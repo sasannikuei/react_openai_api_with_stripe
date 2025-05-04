@@ -1,0 +1,128 @@
+@use "./mixins";
+@use "./extensions";
+@use "./variables";
+
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.form {
+  display: grid;
+  margin: 0 auto;
+  width: 433px;
+  margin: variables.$main-margin * 4;
+
+  @include mixins.media-max-width() {
+    width: 95%;
+  }
+}
+
+input {
+  @include mixins.input-placeholder();
+  padding-left: 75px;
+}
+
+.input {
+  @extend .mainInputStyle;
+  border: 1px solid #fff;
+  margin-top: variables.$main-margin * 2;
+  width: 81.5%;
+
+}
+
+.loginBtn {
+  @extend .mainInputStyle;
+  border: 2px solid variables.$submit-color;
+  margin-top: variables.$main-margin * 5;
+  font-size: medium;
+  color: variables.$submit-color;
+  width: 100%;
+  opacity: 70%;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 100%;
+  }
+}
+
+.icon {
+  position: absolute;
+  margin-top: variables.$main-margin * 3;
+  margin-left: variables.$main-margin * 2;
+}
+
+
+
+
+
+
+
+
+
+
+// کانتینر اصلی صفحه لاگین
+// .container {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   min-height: 100vh;
+//   // background-color: #f5f5f5; // اختیاری، برای پس‌زمینه ملایم
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+// @use"./mixins";
+// @use "./extensions";
+// @use"./variables";
+
+
+// .form {
+//   display: -ms-grid;
+//   display: grid;
+//   margin: variables.$main-margin * 4;
+//   width: 433px;
+//   @include mixins.media-max-width() {
+//     width: 95%;
+//   }
+// }
+
+// input {
+//   @include mixins.input-placeholder();
+//   padding-left: 75px;
+// }
+
+// .input {
+//   @extend .mainInputStyle;
+//   border: 1px solid #fff;
+//   margin-top: variables.$main-margin * 2;
+// }
+// .loginBtn {
+//   @extend .mainInputStyle;
+//   border: 2px solid variables.$submit-color;
+//   margin-top: variables.$main-margin * 5;
+//   font-size: medium;
+//   color: variables.$submit-color;
+//   opacity: 70%;
+//   cursor: pointer;
+//   &:hover {
+//     opacity: 100%;
+//   }
+// }
+// .icon {
+//   position: absolute;
+//   margin-top: variables.$main-margin * 3;
+//   margin-left: variables.$main-margin * 2;
+// }
