@@ -4,9 +4,8 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import PaymentForm from "./PaymentForm";
 
-const stripePromise = loadStripe(
-  "pk_test_51Qh58AA7yRXjz5gFjtJGYM3GcVGiCFdVx4Dxmiz8NdM85LPgiw4A5KIr7codSzOyMK6soVQH1U7pBelNv51BxTd4005F6qZeE6"
-); // Replace with your Stripe publishable key
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);  // Replace with your Stripe publishable key
 
 const PaymentPage = () => {
   const location = useLocation();

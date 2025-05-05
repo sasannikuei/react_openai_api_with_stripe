@@ -42,8 +42,7 @@ AxiosInstance.interceptors.response.use(
         return AxiosInstance(originalRequest);
       } catch (err) {
 
-        console.error("توکن رفرش نیز منقضی شده یا نامعتبر است.");
-        console.error("refresh_token is also expired or unvalid");
+        console.error("refresh_token expired or invalid.");
 
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");

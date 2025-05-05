@@ -5,6 +5,8 @@ import ProfilePage from "./components/ProfilePage";
 import PrivateRoute from "./components/PrivateRoute";
 import PaymentHomepage from "./components/PaymentHomepage";
 import PaymentPage from "./components/PaymentPage";
+import SuccessPage from "./components/SuccessPage";
+import FailurePage from "./components/FailurePage";
 
 
 function App() {
@@ -25,6 +27,8 @@ function App() {
         <Route path="/" element={<GenerateTablePage />} />
         <Route path="/PaymentHomepage" element={<PaymentHomepage />} />
         <Route path="/PaymentPage" element={<PaymentPage />} />
+        <Route path="/payment-success" element={<SuccessPage />} />
+        <Route path="/payment-failure" element={<FailurePage />} />
       </Routes>
     </BrowserRouter>
   );

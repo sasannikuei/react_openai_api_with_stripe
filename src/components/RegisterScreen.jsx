@@ -37,7 +37,7 @@ function RegisterScreen() {
         event.preventDefault();
 
         if(password != confirmPassword){
-            setMessage('Password do not match')
+            setMessage('Password does not match')
         }else{
             dispatch(register(name, email, password))
         }

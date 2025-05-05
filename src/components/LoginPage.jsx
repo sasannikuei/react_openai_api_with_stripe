@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useRef, useEffect, useContext, FormEvent } from "react";
+import { useRef, useEffect } from "react";
 import classes from "./LoginForm.module.scss";
 import usernameIcon from "../assets/akar-icons_person.svg";
 import passwordIcon from "../assets/carbon_password.svg";
@@ -27,7 +27,6 @@ function LoginPage() {
       const password = passwordInputRef.current.value;
     
       try {
-        console.log("I am here 1");
 
         const response = await fetch("http://localhost:8000/api/token/", {
           method: "POST",
@@ -36,7 +35,6 @@ function LoginPage() {
           },
           body: JSON.stringify({ username, password }),
         });
-        console.log("I am here 2");
 
         const data = await response.json();
     
@@ -44,14 +42,17 @@ function LoginPage() {
 
           localStorage.setItem("access_token", data.access);
           localStorage.setItem("refresh_token", data.refresh);
-          console.log("Login موفقیت‌آمیز بود");
+          console.log("Login was successful.");
+
           navigate("/profile");
         } else {
-          console.error("ورود ناموفق", data);
-          alert("ورود ناموفق: نام کاربری یا رمز اشتباه است");
+          console.error("Login was unsuccessful.", data);
+
+          alert("Login failed: Incorrect username or password.");
         }
       } catch (error) {
-        console.error("خطا در ارسال درخواست:", error);
+        console.error("Error sending the request.", error);
+
       }
     };
     
@@ -98,7 +99,6 @@ function LoginPage() {
               type="submit"
               className={classes.loginBtn}
               data-testid="submit"
-              onClick={() => console.log("Click detected!")}
             >
               login
             </button>

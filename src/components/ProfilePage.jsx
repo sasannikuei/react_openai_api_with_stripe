@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
 import AxiosInstance from './AxiosInstance';
+import { useNavigate } from "react-router-dom";
+import "./ProfilePage.css";
+
 
 function ProfilePage() {
   const [profile, setProfile] = useState(null);
   const token = localStorage.getItem('access_token');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -22,15 +26,15 @@ function ProfilePage() {
     fetchProfile();
   }, []);
 
-  if (!profile) return <p>در حال بارگذاری...</p>;
+  if (!profile) return <p>Loading...</p>;
 
   return (
-    <div className="p-4 rounded bg-gray-100 max-w-md mx-auto mt-10 shadow">
-      <h1 className="text-xl font-bold mb-4">پروفایل کاربر</h1>
-      <p><strong>نام کاربری:</strong> {profile.username}</p>
-      <p><strong>ایمیل:</strong> {profile.email}</p>
-      <button onClick={() => navigate("/PaymentHomepage")} className="return-button">
-        Payment Page
+    <div>
+      <h1>User Profile</h1>
+      <p><strong>User Name:</strong> {profile.username}</p>
+      <p><strong>Email:</strong> {profile.email}</p>
+      <button onClick={() => navigate("/PaymentHomepage")} type='submit'>
+        Payments
       </button>
     </div>
   );

@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+
 const PaymentHomepage = () => {
   const [loading, setLoading] = useState(false);
   const [currency, setCurrency] = useState("USD"); // Default currency
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
-  const hardcodedAmount = 50000000; // in cents
-  const [amount, setAmount] = useState();
+  const [amount, setAmount] = useState("");
 
 
-  const handlePayClick = async (email) => {
+  const handlePayClick = async (email, amount) => {
     setLoading(true);
 
     try {
@@ -22,16 +22,15 @@ const PaymentHomepage = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            amount: hardcodedAmount,
+            amount: amount,
             currency: currency,
             user_email: email,
           }),
         }
       );
-
       const data = await response.json();
       if (data.clientSecret) {
-        navigate("/payment", { state: { clientSecret: data.clientSecret } });
+        navigate("/PaymentPage", { state: { clientSecret: data.clientSecret } });
       } else {
         alert("Error creating payment intent.");
       }
@@ -44,30 +43,31 @@ const PaymentHomepage = () => {
   };
 
   return (
-    <div className="container">
+    <div>
       <h1>React Stripe Payment</h1>
-      <p>
-        <strong>Amount:</strong> {hardcodedAmount}
-        <input
-          onChange={(e) => {
-            setAmount(e.target.value);
-          }}
-          value={email}
-          name="Amount"
-          id="Amount"
-          type="email"
-        />
-      </p>
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          if (!email || email.trim() == "") {
+          if (!email.trim() || !amount || parseFloat(amount) <= 0) {
+            alert("Please enter a valid email and amount.");
             return;
-          }
+          }          
 
-          handlePayClick(email);
+          handlePayClick(email, amount);
         }}
       >
+        <p>
+          <strong>Amount:</strong>
+          <input
+            onChange={(e) => {
+              setAmount(e.target.value);
+            }}
+            value={amount}
+            name="amount"
+            id="amount"
+            type="number"
+          />
+        </p>
         <label htmlFor="email">Enter your email:</label>
         <input
           onChange={(e) => {
@@ -78,9 +78,11 @@ const PaymentHomepage = () => {
           id="email"
           type="email"
         />
-        <button type="submit" disabled={loading}>
-          {loading ? "Loading..." : "Pay"}
-        </button>
+        <div>
+          <button type="submit" disabled={loading}>
+            {loading ? "Loading..." : "Pay"}
+          </button>
+        </div>
       </form>
     </div>
   );
