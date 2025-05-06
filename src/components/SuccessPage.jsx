@@ -7,7 +7,7 @@ const SuccessPage = () => {
   const location = useLocation();
 
   if (!location.state?.fromPayment) {
-    return <Navigate to="/PaymentPage" />;
+    return <Navigate to="/paymentpage" />;
   }
   return (
     <div className="success-page">

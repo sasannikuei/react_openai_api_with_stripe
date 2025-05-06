@@ -1,10 +1,11 @@
 import React from 'react'
-
+import AxiosInstance from './AxiosInstance';
 import { useRef, useEffect } from "react";
 import classes from "./LoginForm.module.scss";
 import usernameIcon from "../assets/akar-icons_person.svg";
 import passwordIcon from "../assets/carbon_password.svg";
 import { useNavigate } from "react-router-dom";
+
 
 function LoginPage() {
 
@@ -15,8 +16,8 @@ function LoginPage() {
     useEffect(() => {
       const token = localStorage.getItem("access_token");
       if (token) {
-        navigate("/profile");
-      }
+        navigate("/profile", { replace: true });
+            }
     }, []);
 
     
@@ -28,34 +29,23 @@ function LoginPage() {
     
       try {
 
-        const response = await fetch("http://localhost:8000/api/token/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ username, password }),
+        const response = await AxiosInstance.post("/api/token/", {
+          username,
+          password,
         });
 
-        const data = await response.json();
+        localStorage.setItem("access_token", response.data.access);
+        localStorage.setItem("refresh_token", response.data.refresh);
     
-        if (response.ok) {
+        console.log("Login was successful.");
+        navigate("/profile");
 
-          localStorage.setItem("access_token", data.access);
-          localStorage.setItem("refresh_token", data.refresh);
-          console.log("Login was successful.");
-
-          navigate("/profile");
-        } else {
-          console.error("Login was unsuccessful.", data);
-
-          alert("Login failed: Incorrect username or password.");
-        }
       } catch (error) {
-        console.error("Error sending the request.", error);
-
+        console.error("Login failed:", error.response?.data || error.message);
+        alert("Login failed: Incorrect username or password.");
       }
     };
-    
+  
 
   return (
     <div className={classes.container}>
@@ -109,5 +99,3 @@ function LoginPage() {
 }
 
 export default LoginPage
-
-

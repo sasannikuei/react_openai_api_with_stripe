@@ -1,10 +1,7 @@
 import React, { useState } from "react";
-import {
-  PaymentElement,
-  useStripe,
-  useElements,
-} from "@stripe/react-stripe-js";
+import { PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { useNavigate } from "react-router-dom";
+
 
 
 const PaymentForm = () => {
@@ -24,13 +21,13 @@ const PaymentForm = () => {
 
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
-      redirect: "if_required", // مهم!
+      redirect: "if_required", 
     });
     
     if (error) {
-      navigate('/payment-failure');
+      navigate('/paymentfailure');
     } else if (paymentIntent && paymentIntent.status === "succeeded") {
-      navigate('/payment-success', { state: { fromPayment: true } });
+      navigate('/paymentsuccess', { state: { fromPayment: true } });
     }
 
     setLoading(false);
@@ -41,6 +38,7 @@ const PaymentForm = () => {
       <PaymentElement />
       <button disabled={!stripe || loading}>
         {loading ? "Processing..." : "Pay"}
+          
       </button>
     </form>
   );

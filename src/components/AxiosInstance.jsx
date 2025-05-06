@@ -2,23 +2,26 @@ import axios from "axios";
 
 const baseURL = "http://localhost:8000";
 
+const access_token = localStorage.getItem("access_token");
+
 const AxiosInstance = axios.create({
   baseURL,
   headers: {
     "Content-Type": "application/json",
+    ...(access_token && { Authorization: `Bearer ${access_token}` }),
   },
 });
 
-// افزودن interceptor
-// adding interceptor
+
+
+// Add Interceptor
 
 AxiosInstance.interceptors.response.use(
   response => response,
   async error => {
     const originalRequest = error.config;
 
-    // اگر خطای توکن منقضی بود و درخواست قبلاً retry نشده
-    // if token was expried and request was also not retry 
+    // if token expired and request was not retried either
 
     if (
       error.response?.status === 401 &&
@@ -35,10 +38,11 @@ AxiosInstance.interceptors.response.use(
 
         localStorage.setItem("access_token", response.data.access);
 
-        // هدر جدید بزن برای retry
-        // create new retry for header
+
+        // Create new retry for header
 
         originalRequest.headers["Authorization"] = `Bearer ${response.data.access}`;
+        AxiosInstance.defaults.headers["Authorization"] = `Bearer ${response.data.access}`;
         return AxiosInstance(originalRequest);
       } catch (err) {
 

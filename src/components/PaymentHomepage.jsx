@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AxiosInstance from "./AxiosInstance";
 
 
 const PaymentHomepage = () => {
@@ -14,28 +15,19 @@ const PaymentHomepage = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(
-        "http://127.0.0.1:8000/create-payment-intent/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            amount: amount,
-            currency: currency,
-            user_email: email,
-          }),
-        }
-      );
-      const data = await response.json();
-      if (data.clientSecret) {
-        navigate("/PaymentPage", { state: { clientSecret: data.clientSecret } });
+      const response = await AxiosInstance.post("/create-payment-intent/", {
+        amount: amount,
+        currency: currency,
+        user_email: email,
+      });
+      const clientSecret = response.data.clientSecret;
+      if (clientSecret) {
+        navigate("/paymentpage", { state: { clientSecret } });
       } else {
         alert("Error creating payment intent.");
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error creating payment intent:", error.response?.data || error.message);
       alert("Error creating payment intent.");
     } finally {
       setLoading(false);
@@ -89,3 +81,4 @@ const PaymentHomepage = () => {
 };
 
 export default PaymentHomepage;
+

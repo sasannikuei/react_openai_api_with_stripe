@@ -10,28 +10,65 @@ import FailurePage from "./components/FailurePage";
 
 
 function App() {
-
+  const privateRoutes = [
+    { path: "/", element: <GenerateTablePage /> },
+    { path: "/profile", element: <ProfilePage /> },
+    { path: "/paymenthomepage", element: <PaymentHomepage /> },
+    { path: "/paymentpage", element: <PaymentPage /> },
+    { path: "/paymentsuccess", element: <SuccessPage /> },
+    { path: "/paymentfailure", element: <FailurePage /> },
+  ];
+  
   return (
     <BrowserRouter>
       <Routes>
         <Route path="*" element={<Navigate to="/login" />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route
-          path="/profile"
-          element={
-            <PrivateRoute>
-              <ProfilePage />
-            </PrivateRoute>
-          }
-        />
-        <Route path="/" element={<GenerateTablePage />} />
-        <Route path="/PaymentHomepage" element={<PaymentHomepage />} />
-        <Route path="/PaymentPage" element={<PaymentPage />} />
-        <Route path="/payment-success" element={<SuccessPage />} />
-        <Route path="/payment-failure" element={<FailurePage />} />
+        {privateRoutes.map(({ path, element }) => (
+          <Route
+            key={path}
+            path={path}
+            element={<PrivateRoute>{element}</PrivateRoute>}
+          />
+        ))}
       </Routes>
     </BrowserRouter>
   );
 }
 
 export default App;
+
+
+
+
+
+{/* <Route
+path="/profile" element={
+  <PrivateRoute>
+    <ProfilePage />
+  </PrivateRoute>}/>
+<Route
+path="/" element={
+  <PrivateRoute>
+    <GenerateTablePage />
+  </PrivateRoute>} />
+<Route
+path="/paymenthomepage" element={
+  <PrivateRoute>
+    <PaymentHomepage />
+  </PrivateRoute>} />
+<Route
+path="/paymentpage" element={
+  <PrivateRoute>
+    <PaymentPage />
+  </PrivateRoute>} />
+<Route
+path="/paymentsuccess" element={
+  <PrivateRoute>
+    <SuccessPage />
+  </PrivateRoute>} />
+<Route
+path="/paymentfailure" element={
+  <PrivateRoute>
+    <FailurePage />
+  </PrivateRoute>} /> */}
